@@ -9,8 +9,8 @@ module top (
 
   localparam NUM = 2;
 
-  wire [11:0] adc_data [NUM-1:0]; // works
-//  reg [11:0] adc_data [NUM-1:0]; // doesn't work - infers memrd
+//  wire [11:0] adc_data [NUM-1:0]; // works: LEDS show ADC values
+  reg [11:0] adc_data [NUM-1:0]; // doesn't work - infers memrd: LEDS all stay off
   reg reset = 1;
   wire [NUM-1:0] ready;
 
@@ -19,6 +19,13 @@ module top (
 
   assign LED[7:4] = adc_data[0][11:8];
   assign LED[3:0] = adc_data[1][11:8];
+
+  /* doesn't help
+  always @(posedge clk) begin
+      LED[7:4] <= adc_data[0][11:8];
+      LED[3:0] <= adc_data[1][11:8];
+  end
+  */
 
   generate
   genvar i;
